@@ -1,0 +1,45 @@
+@model Ticket
+
+<!-- Breadcrumbs using partial view -->
+<partial name="_Breadcrumbs" model=@(new [] { ("/", "Home"), ("/ticket", "Tickets"), ("","Close") })>
+    
+<div class="col card rounded shadow-lg p-4">
+    <h3 class="mb-4">Ticket</h3>
+
+    <!-- Ticket Details Data List -->
+    <dl class="row">       
+        <dt class="col-4">Id</dt>
+        <dd class="col-8">@Model.Id</dd>
+        
+        <dt class="col-4">Created On</dt>
+        <dd class="col-8">@Model.CreatedOn</dd>
+     
+        <dt class="col-4">Issue</dt>
+        <dd class="col-8">@Model.Issue</dd>
+         
+        <dt class="col-4">Created By</dt>
+        <dd class="col-8">@Model.Student.Name</dd>
+   
+        <dt class="col-4">Resolved On</dt>
+        <dd class="col-8">
+            <span asp-condition=@(Model.Active)>Unresolved</span>
+            <!-- TBC add span to show ResolvedOn property if model is not active -->
+        </dd>
+     
+        <dt asp-condition=@(!Model.Active) class="col-4">Resolution</dt>
+        <!-- TBC -- display the resolution if model is not active -->
+         
+    </dl>
+
+    <div class="mt-4" id="controls">   
+        <!-- close button toggles the modal -->        
+        <button asp-condition=@(User.HasOneOfRoles("admin,support"))
+                data-bs-toggle="modal" data-bs-target="#closeTicketModal" 
+                class="btn btn-sm btn-danger">
+            <i class="bi bi-trash mr-1"></i>Close
+        </button>
+        <a class="btn btn-link" asp-action="Index">Cancel</a>
+    </div>
+</div>
+
+<partial name="_CloseModal" />

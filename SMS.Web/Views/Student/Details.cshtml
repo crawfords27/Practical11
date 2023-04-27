@@ -1,0 +1,88 @@
+@model Student
+
+<partial name="_BreadCrumbs" model=@(new [] {
+    ("/","Home"),
+    ("/student","Students"),
+    ("",$"{Model.Id}")
+}) />
+
+<div class="card rounded shadow p-4">
+    <!-- Display student details -->
+    <div class="row">
+        <!-- Details and Navigation -->
+        <div class="col-8 d-flex flex-column justify-content-between">
+            <!-- Student details -->
+            <div>
+                <h2 class="mb-4 text-primary">Student Details</h2>
+                <dl class="row">  
+                    <dt class="col-4 pb-1">Name</dt>
+                    <dd class="col-8 pb-1">@Model.Name</dd>
+
+                    <dt class="col-4 pb-1">Course</dt>
+                    <dd class="col-8 pb-1">@Model.Course</dd>
+                    
+                    <dt class="col-4 pb-1">Age</dt>
+                    <dd class="col-8 pb-1">@Model.Age</dd>
+                    
+                    <dt class="col-4 pb-1">Email</dt>
+                    <dd class="col-8 pb-1">@Model.Email</dd>
+
+                    <dt class="col-4 pb-1">Class</dt>
+                    <dd class="col-8 pb-1">@Model.Classification</dd>
+                </dl>
+            </div>
+
+            <!-- Navigation links -->
+            <div>               
+                <!-- navigation link to Index action -->
+                <a asp-action="Index" class="btn btn-sm btn-outline-primary" aria-label="student list">
+                    <i class="bi bi-list" title="student list"></i>
+                    <span class="ms-1 d-none d-md-inline">List</span>
+                </a>
+    
+                <!-- navigation link to Update action, passing the correct route id parameter --> 
+                <a asp-condition=@User.HasOneOfRoles("admin,support") asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary" aria-label="edit student">
+                    <i class="bi bi-pen-fill" title="edit student"></i>
+                    <span class="ms-1 d-none d-md-inline">Edit</span>
+                </a>
+                
+                <!-- navigation link to CreateTicket action, passing correct route parameter --> 
+                <a asp-action="TicketCreate" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary" aria-label="create ticket">
+                    <i class="bi bi-bag-plus-fill" title="create ticket"></i>
+                    <span class="ms-1 d-none d-md-inline">Ticket</span>
+                </a> 
+ 
+                <!-- navigation link to Delete action, passing the correct route id parameter --> 
+                @* <a asp-condition=@User.HasOneOfRoles("admin") asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-danger" aria-label="delete student">
+                    <i class="bi bi-trash-fill" title="delete student"></i>
+                    <span class="ms-1 d-none d-md-inline">Delete</span>
+                </a>   *@
+                
+                <!-- alternate delete modal activation button --> 
+                <button asp-condition=@User.HasOneOfRoles("admin") type="button" class="btn btn-sm btn-outline-danger" aria-label="delete student"
+                        data-bs-toggle="modal" data-bs-target="#deleteStudentModal">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+
+        <!-- Photo -->
+        <div class="col-4">
+            @if (Model.PhotoUrl?.Length > 0)
+            {
+                <img src="@Model.PhotoUrl" class="img-fluid" alt="student photo">
+            } else {
+                <span class="text-info">No photo available</span>
+            }
+        </div>
+
+    </div>    
+</div>
+
+<!-- Tickets -->
+<div class="card rounded shadow p-4 mt-4">
+    <partial name="_Tickets" />
+</div>
+
+<!-- Delete Modal -->
+<partial name="_DeleteModal" />

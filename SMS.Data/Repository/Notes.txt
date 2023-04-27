@@ -1,0 +1,13 @@
+// custom method used in development to keep database in sync with models
+public void Initialise() 
+{
+    // Deleting and Creating Database doesnt work with Postgres/Supabase
+    var students = Students.ToList();
+
+    // delete all students already in database
+    Students.RemoveRange(students);
+    SaveChanges();
+}
+    
+
+ 

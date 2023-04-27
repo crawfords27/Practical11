@@ -1,0 +1,64 @@
+@model Student
+
+<h4>Tickets</h4>
+<table class="table table-sm">
+    <thead>
+        <tr>          
+            <th>Issue</th>
+            <th>Created</th>  
+            <th>Active</th>       
+            <th>Actions</th>  
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Tickets.Count == 0)
+        {
+            <tr>              
+                <td colspan="4">No tickets...</td>
+            </tr>
+        }
+        else
+        {
+            @foreach(var t in Model.Tickets) {
+                <tr>             
+                    <td>@t.Issue</td>
+                    <td>@t.CreatedOn</td>  
+                    <td>                       
+                        @if(t.Active) {
+                            <i class="bi bi-bell-fill"></i>
+                        } else {
+                            <i class="bi bi-bell-slash"></i>
+                        }                        
+                    </td>
+                    <td>
+                        @if (t.Active) {
+                            <a asp-condition="@t.Active" asp-action="TicketDelete" asp-route-id="@t.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash-fill" title="delete ticket"></i>
+                                <span class="ms-1 d-none d-md-inline">Delete</span>    
+                            </a>
+                        } else {
+                            <!-- use button to allow use of disable attribute -->
+                            <button disabled class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-trash-fill" title="delete ticket disabled"></i>
+                                <span class="ms-1 d-none d-md-inline">Delete</span>    
+                            </button>
+                        }
+                        @if (t.Active) {
+                            <a asp-action="TicketEdit" asp-route-id="@t.Id" class="btn btn-sm btn-outline-dark">
+                                <i class="bi bi-pen-fill" title="edit ticket"></i>
+                                <span class="ms-1 d-none d-md-inline">Edit</span>    
+                            </a>
+                        } else {
+                            <!-- use button to allow use of disable attribute -->
+                            <button disabled class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pen-fill" title="edit ticket disabled"></i>
+                                <span class="ms-1 d-none d-md-inline">Edit</span>    
+                            </button>
+                        }
+                    </td>             
+                </tr>
+                
+            }
+        }
+    </tbody>
+</table> 

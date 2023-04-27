@@ -1,0 +1,36 @@
+@model User
+
+<partial name="_BreadCrumbs" model=@(new [] {
+    ("/","Home"),
+    ("","User"),
+    ("","Profile")
+}) />
+
+<div class="card rounded shadow p-4">
+    
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="text-primary">User Profile</h2>       
+    </div>
+
+    <!-- Display user details -->
+    <div class="row">
+        <!-- Details and Navigation -->
+        <div class="col-8 d-flex flex-column justify-content-between">
+            <!-- User details -->
+            <div>               
+                <dl class="row">  
+                    <dt class="col-4 pb-1">Name</dt>
+                    <dd class="col-8 pb-1">@Model.Name</dd>
+
+                    <dt class="col-4 pb-1">Email</dt>
+                    <dd class="col-8 pb-1">@Model.Email</dd>
+                    
+                    <dt class="col-4 pb-1">Role</dt>
+                    <dd class="col-8 pb-1">@Model.Role</dd                    
+                </dl>
+            </div>
+
+        </div>
+
+    </div>    
+</div>

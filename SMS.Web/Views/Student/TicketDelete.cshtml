@@ -1,0 +1,39 @@
+@model Ticket
+    
+<partial name="_BreadCrumbs" model=@(new [] {
+    ("/","Home"),
+    ("/student","Students"),
+    ($"/student/details/{Model.StudentId}",$"{Model.StudentId}"),
+    ("",$"Delete Ticket {Model.Id}")
+}) />
+
+<div class="card rounded shadow p-4">
+    <h3>Delete Ticket <span class="ms-3 text-danger fs-5">Are you sure?</span></h3>
+
+    <!-- display the student using a <dl> as per Details.cshtml -->   
+    <dl class="row mt-3">       
+        <dt class="col-5">Student</dt>
+        <dd class="col-7">@Model.Student.Name</dd>
+
+        <dt class="col-5">Issue</dt>
+        <dd class="col-7">@Model.Issue</dd>
+        
+        <dt class="col-5">Created</dt>
+        <dd class="col-7">@Model.CreatedOn.ToShortDateString()</dd>
+        
+        <dt class="col-5">Active</dt>
+        <dd class="col-7">@Model.Active</dd>           
+    </dl>   
+
+    <div class="mt-4">
+        <!-- use a form with hidden input storing ticket id and studentId -->
+        <form asp-action="TicketDeleteConfirm" type="post">
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="StudentId"/>
+          
+            <button type="submit" class="btn btn-danger" aria-label="confirm">Confirm</button>
+            <a class="btn btn-secondary" asp-controller="Student" asp-action="Details" asp-route-id="@Model.Student.Id" aria-label="cancel" >Cancel</a>
+        </form>
+    </div>
+    
+</div>

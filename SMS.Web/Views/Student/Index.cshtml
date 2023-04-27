@@ -1,0 +1,51 @@
+@model IList<Student>
+
+<partial name="_BreadCrumbs" model=@(new [] {
+    ("/","Home"),
+    ("","Students")
+}) />
+
+<div class="card border rounded shadow p-4">
+
+    <!-- Title bar -->
+    <div class="d-flex align-items-center justify-content-between">
+        <h3>Student List</h3>
+        
+        <a asp-condition=@User.HasOneOfRoles("admin") class="btn btn-sm btn-primary" asp-action="create" title="add student" aria-label="add student">
+           <i class="bi bi-plus"></i> Create
+        </a>
+    </div>
+
+    <!-- List of students -->
+    <table class="table table-hover mt-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var s in Model)
+            {
+                <tr>
+                    <td>@s.Id</td>
+                    <td>@s.Name</td>
+                    <td>@s.Course</td>
+                    <td>@s.Age</td>
+                    <td>                       
+                        <a asp-action="Details" asp-route-id=@s.Id>
+                            <i class="bi bi-display-fill me-2" title="view student" arial-label="view student"></i>
+                        </a>
+                        <a asp-condition=@User.HasOneOfRoles("admin,support") asp-action="Edit" asp-route-id=@s.Id>
+                            <i class="bi bi-pencil-fill me-2" title="edit student" aria-label="edit student"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

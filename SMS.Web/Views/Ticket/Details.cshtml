@@ -1,0 +1,57 @@
+@model Ticket
+
+<!-- Breadcrumbs using partial view -->
+<partial name="_Breadcrumbs" model=@(new [] { ("/", "Home"), ("/ticket", "Tickets"), ("","Close") })>
+    
+<div class="col card rounded shadow-lg p-4">
+    <h3 class="mb-4">Ticket</h3>
+
+    <!-- Ticket Details Data List -->
+    <dl class="row">       
+        <dt class="col-4">Id</dt>
+        <dd class="col-8">@Model.Id</dd>
+
+        <dt class="col-4">Created On</dt>
+        <dd class="col-8">@Model.CreatedOn</dd>
+     
+        <dt class="col-4">Issue</dt>
+        <dd class="col-8">@Model.Issue</dd>
+         
+        <dt class="col-4">Created By</dt>
+        <dd class="col-8">@Model.Student.Name</dd>
+   
+        <dt class="col-4">Resolved On</dt>
+        <dd class="col-8">
+            <span asp-condition=@(Model.Active)>Unresolved</span>
+            <!-- TBC add span to show ResolvedOn property if model is not active -->
+        </dd>
+     
+        <dt class="col-4">Resolution</dt>
+        <!-- TBC -- display the resolution -->
+    </dl>
+
+    <form hidden asp-action="Close" asp-route-id="@Model.Id" id="closeTicketForm">
+         <!-- TBC - complete hidden form                              -->
+         <!--  add bootstrap styled resolution label/textarea div     -->
+         <!--  add close button with type submit styled appropriately -->
+         <!--  cancel button with type button and onclick handler     -->
+         <!--  calling closeTicket to toggle form/controls display    -->
+    </form>
+
+    <div class="mt-4" id="controls" >            
+        <button onclick="closeTicket()" asp-condition=@(User.HasOneOfRoles("admin,support")) class="btn btn-sm btn-danger">
+            <i class="bi bi-trash mr-1"></i>Close
+        </button>
+        <a class="btn btn-link" asp-action="Index">Cancel</a>
+
+    </div>
+</div>
+
+<script>
+    // toggle display of form with id 'closeTicketForm' and div with id 'controls'
+    function closeTicket()
+    {
+        // TBC - toggle display of hidden form controls div - see notes
+        
+    }
+</script>
